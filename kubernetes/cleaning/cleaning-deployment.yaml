@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: cleaning
+  namespace: monitoring
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: cleaning
+
+  template:
+    metadata:
+      labels:
+        app: cleaning
+
+    spec:
+      containers:
+        - name: cleaning
+          image: datacenter-monitoring-cleaning:latest
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 5000
+
+          env:
+            - name: DB_HOST
+              value: postgres-service
+
+            - name: DB_PORT
+              value: "5432"
+
+            - name: DB_NAME
+              value: datacenter_monitoring
+
+            - name: DB_USER
+              value: postgres
+
+            - name: DB_PASSWORD
+              value: msaly2310

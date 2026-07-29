@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "hostname": "SRV-001",
+        "type": "Server",
+        "location": "Salle A - Rack 1",
+        "manufacturer": "Dell",
+        "model": "PowerEdge R750"
+    },
+    {
+        "id": 2,
+        "hostname": "SRV-002",
+        "type": "Server",
+        "location": "Salle A - Rack 2",
+        "manufacturer": "Dell",
+        "model": "PowerEdge R750"
+    },
+    {
+        "id": 3,
+        "hostname": "SRV-003",
+        "type": "Server",
+        "location": "Salle B - Rack 1",
+        "manufacturer": "HP",
+        "model": "ProLiant DL380"
+    },
+    {
+        "id": 4,
+        "hostname": "SW-001",
+        "type": "Switch",
+        "location": "Salle Réseau",
+        "manufacturer": "Cisco",
+        "model": "Catalyst 9300"
+    },
+    {
+        "id": 5,
+        "hostname": "SW-002",
+        "type": "Switch",
+        "location": "Salle Réseau",
+        "manufacturer": "Cisco",
+        "model": "Catalyst 9500"
+    },
+    {
+        "id": 6,
+        "hostname": "RTR-001",
+        "type": "Router",
+        "location": "Salle Réseau",
+        "manufacturer": "Cisco",
+        "model": "ASR1001"
+    },
+    {
+        "id": 7,
+        "hostname": "FW-001",
+        "type": "Firewall",
+        "location": "Salle Sécurité",
+        "manufacturer": "Fortinet",
+        "model": "FortiGate 100F"
+    },
+    {
+        "id": 8,
+        "hostname": "UPS-001",
+        "type": "UPS",
+        "location": "Salle Énergie",
+        "manufacturer": "APC",
+        "model": "Smart-UPS"
+    },
+    {
+        "id": 9,
+        "hostname": "AC-001",
+        "type": "Cooling",
+        "location": "Salle Climatisation",
+        "manufacturer": "Schneider",
+        "model": "Cooling Unit"
+    },
+    {
+        "id": 10,
+        "hostname": "AC-002",
+        "type": "Cooling",
+        "location": "Salle Climatisation",
+        "manufacturer": "Schneider",
+        "model": "Cooling Unit"
+    }
+]

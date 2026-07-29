@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: collector
+  namespace: monitoring
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: collector
+
+  template:
+    metadata:
+      labels:
+        app: collector
+
+    spec:
+      containers:
+        - name: collector
+          image: datacenter-monitoring-collector:latest
+          imagePullPolicy: Never
+
+          env:
+            - name: CLEANING_URL
+              value: http://cleaning-service:5000/metrics
