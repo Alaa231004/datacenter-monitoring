@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Connexion - Data Center Monitoring</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/auth.css') }}">
+
+</head>
+
+<body>
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <div class="logo">
+            DC
+        </div>
+
+        <h1>
+            Data Center
+        </h1>
+
+        <p class="subtitle">
+            Monitoring Platform
+        </p>
+
+
+        <h2>
+            Connexion
+        </h2>
+
+        <p class="description">
+            Connectez-vous à votre espace de supervision.
+        </p>
+
+
+        <form id="login-form">
+
+            <label>
+                Email ou Username
+            </label>
+
+            <input
+                id="identifier"
+                type="text"
+                placeholder="Email ou username"
+                required
+            >
+
+
+            <label>
+                Mot de passe
+            </label>
+
+            <input
+                id="password"
+                type="password"
+                placeholder="Votre mot de passe"
+                required
+            >
+
+
+            <button type="submit">
+                Se connecter
+            </button>
+
+        </form>
+
+
+        <div id="message"></div>
+
+
+        <p class="switch">
+            Vous n'avez pas encore de compte ?
+            <a href="/register">
+                Créer un compte
+            </a>
+        </p>
+
+    </div>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+
+</body>
+
+</html>

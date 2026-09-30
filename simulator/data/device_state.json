@@ -1,0 +1,109 @@
+{
+    "SRV-001": {
+        "cpu": 44,
+        "ram": 28,
+        "disk": 27,
+        "cpu_temperature": 77,
+        "motherboard_temperature": 51,
+        "fan_speed": 3119,
+        "power": 704,
+        "network_in": 858,
+        "network_out": 603,
+        "processes": 156,
+        "power_supply_status": "OK"
+    },
+    "SRV-002": {
+        "cpu": 38,
+        "ram": 84,
+        "disk": 12,
+        "cpu_temperature": 57,
+        "motherboard_temperature": 48,
+        "fan_speed": 2077,
+        "power": 438,
+        "network_in": 80,
+        "network_out": 199,
+        "processes": 147,
+        "power_supply_status": "OK"
+    },
+    "SRV-003": {
+        "cpu": 12,
+        "ram": 64,
+        "disk": 34,
+        "cpu_temperature": 41,
+        "motherboard_temperature": 50,
+        "fan_speed": 3153,
+        "power": 575,
+        "network_in": 753,
+        "network_out": 919,
+        "processes": 135,
+        "power_supply_status": "OK"
+    },
+    "SW-001": {
+        "cpu": 69,
+        "memory": 89,
+        "temperature": 24,
+        "network_in": 255,
+        "network_out": 820,
+        "active_ports": 47,
+        "interface_errors": 10,
+        "port_status": "UP",
+        "power": 240
+    },
+    "SW-002": {
+        "cpu": 45,
+        "memory": 56,
+        "temperature": 29,
+        "network_in": 813,
+        "network_out": 441,
+        "active_ports": 35,
+        "interface_errors": 10,
+        "port_status": "DOWN",
+        "power": 278
+    },
+    "RTR-001": {
+        "cpu": 55,
+        "memory": 71,
+        "network_in": 90,
+        "network_out": 588,
+        "active_routes": 207,
+        "temperature": 25,
+        "interface_status": "DOWN"
+    },
+    "FW-001": {
+        "cpu": 54,
+        "memory": 40,
+        "active_sessions": 2306,
+        "network_throughput": 823,
+        "connections": 4127,
+        "temperature": 36
+    },
+    "UPS-001": {
+        "battery_level": 84,
+        "runtime": 81,
+        "input_voltage": 227,
+        "output_voltage": 238,
+        "frequency": 50,
+        "load": 10,
+        "power": 600,
+        "temperature": 43,
+        "battery_status": "NORMAL"
+    },
+    "AC-001": {
+        "supply_temperature": 23,
+        "return_temperature": 23,
+        "humidity": 58,
+        "fan_speed": 2172,
+        "power": 880,
+        "pressure": 1011,
+        "compressor_status": "OFF"
+    },
+    "AC-002": {
+        "supply_temperature": 23,
+        "return_temperature": 32,
+        "humidity": 41,
+        "fan_speed": 4831,
+        "power": 200,
+        "pressure": 961,
+        "compressor_status": "OFF"
+    }
+}

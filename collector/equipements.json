@@ -5,7 +5,11 @@
         "type": "Server",
         "location": "Salle A - Rack 1",
         "manufacturer": "Dell",
-        "model": "PowerEdge R750"
+        "model": "PowerEdge R750",
+        "protocol": "snmp",
+        "ip": "snmp-sim",
+        "port": 11611,
+        "community": "srv001"
     },
     {
         "id": 2,
@@ -13,7 +17,11 @@
         "type": "Server",
         "location": "Salle A - Rack 2",
         "manufacturer": "Dell",
-        "model": "PowerEdge R750"
+        "model": "PowerEdge R750",
+        "protocol": "snmp",
+        "ip": "snmp-sim",
+        "port": 11611,
+        "community": "srv002"
     },
     {
         "id": 3,
@@ -21,7 +29,11 @@
         "type": "Server",
         "location": "Salle B - Rack 1",
         "manufacturer": "HP",
-        "model": "ProLiant DL380"
+        "model": "ProLiant DL380",
+        "protocol": "snmp",
+        "ip": "snmp-sim",
+        "port": 11611,
+        "community": "srv003"
     },
     {
         "id": 4,
@@ -29,7 +41,11 @@
         "type": "Switch",
         "location": "Salle Réseau",
         "manufacturer": "Cisco",
-        "model": "Catalyst 9300"
+        "model": "Catalyst 9300",
+        "protocol": "snmp",
+        "ip": "snmp-sim",
+        "port": 11611,
+        "community": "sw001"
     },
     {
         "id": 5,
@@ -37,7 +53,11 @@
         "type": "Switch",
         "location": "Salle Réseau",
         "manufacturer": "Cisco",
-        "model": "Catalyst 9500"
+        "model": "Catalyst 9500",
+        "protocol": "snmp",
+        "ip": "snmp-sim",
+        "port": 11611,
+        "community": "sw002"
     },
     {
         "id": 6,
@@ -45,7 +65,11 @@
         "type": "Router",
         "location": "Salle Réseau",
         "manufacturer": "Cisco",
-        "model": "ASR1001"
+        "model": "ASR1001",
+        "protocol": "snmp",
+        "ip": "snmp-sim",
+        "port": 11611,
+        "community": "rtr001"
     },
     {
         "id": 7,
@@ -53,7 +77,11 @@
         "type": "Firewall",
         "location": "Salle Sécurité",
         "manufacturer": "Fortinet",
-        "model": "FortiGate 100F"
+        "model": "FortiGate 100F",
+        "protocol": "snmp",
+        "ip": "snmp-sim",
+        "port": 11611,
+        "community": "fw001"
     },
     {
         "id": 8,
@@ -61,7 +89,11 @@
         "type": "UPS",
         "location": "Salle Énergie",
         "manufacturer": "APC",
-        "model": "Smart-UPS"
+        "model": "Smart-UPS",
+        "protocol": "modbus",
+        "ip": "modbus-sim",
+        "port": 5020,
+        "slave_id": 1
     },
     {
         "id": 9,
@@ -69,7 +101,11 @@
         "type": "Cooling",
         "location": "Salle Climatisation",
         "manufacturer": "Schneider",
-        "model": "Cooling Unit"
+        "model": "Cooling Unit",
+        "protocol": "modbus",
+        "ip": "modbus-sim",
+        "port": 5020,
+        "slave_id": 2
     },
     {
         "id": 10,
@@ -77,6 +113,10 @@
         "type": "Cooling",
         "location": "Salle Climatisation",
         "manufacturer": "Schneider",
-        "model": "Cooling Unit"
+        "model": "Cooling Unit",
+        "protocol": "modbus",
+        "ip": "modbus-sim",
+        "port": 5020,
+        "slave_id": 3
     }
 ]

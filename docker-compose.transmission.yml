@@ -1,0 +1,93 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: datacenter_monitoring
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: msaly2310
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+  cleaning:
+    image: datacenter-monitoring-cleaning
+    container_name: cleaning
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: datacenter_monitoring
+      DB_USER: postgres
+      DB_PASSWORD: msaly2310
+    ports:
+      - "5000:5000"
+  collector:
+    image: datacenter-monitoring-collector
+    container_name: collector
+    depends_on:
+      - cleaning
+  web:
+    image: datacenter-monitoring-web
+    container_name: web
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: datacenter_monitoring
+      DB_USER: postgres
+      DB_PASSWORD: msaly2310
+      SECRET_KEY: ${SECRET_KEY}
+      SMTP_SERVER: smtp.gmail.com
+      SMTP_PORT: 587
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_FROM: ${SMTP_FROM}
+    ports:
+      - "5002:5000"
+  simulator:
+      image: datacenter-monitoring-simulator
+      context: .
+      dockerfile: simulator/Dockerfile
+    container_name: simulator
+    volumes:
+      - shared_data:/app/simulator/data
+  snmp-sim:
+    image: datacenter-monitoring-snmp-sim
+    container_name: snmp-sim
+    depends_on:
+      - simulator
+    ports:
+      - "11611:11611/udp"
+  modbus-sim:
+    image: datacenter-monitoring-modbus-sim
+    container_name: modbus-sim
+    depends_on:
+      - simulator
+    environment:
+      DEVICE_STATE_PATH: /shared/device_state.json
+    volumes:
+      - shared_data:/shared
+    ports:
+      - "5020:5020"
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    depends_on:
+      - postgres
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+volumes:
+  postgres_data:
+  shared_data:
+  grafana_data:

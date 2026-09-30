@@ -16,16 +16,38 @@ def log_processing(data, anomalies):
 
     print("\n------ METRIQUES ------")
 
-    print(f"CPU : {data['cpu']} %")
-    print(f"RAM : {data['ram']} %")
-    print(f"Disk : {data['disk']} %")
-    print(f"Temperature : {data['temperature']} °C")
-    print(f"Power : {data['power']} W")
-    print(f"Network IN : {data['network_in']} Mb/s")
-    print(f"Network OUT : {data['network_out']} Mb/s")
-    print(f"Fan Speed : {data['fan_speed']} RPM")
-    print(f"Status : {data['status']}")
+    if data["type"] == "SERVER":
 
+          print(f"CPU : {data['cpu']} %")
+          print(f"RAM : {data['ram']} %")
+          print(f"Disk : {data['disk']} %")
+          print(f"Temperature : {data['temperature']} °C")
+          print(f"Power : {data['power']} W")
+          print(f"Network IN : {data['network_in']} Mb/s")
+          print(f"Network OUT : {data['network_out']} Mb/s")
+          print(f"Fan Speed : {data['fan_speed']} RPM")
+    
+    elif data["type"] == "UPS":
+
+          print(f"Battery Level : {data['battery_level']} %")
+          print(f"Runtime : {data['runtime']} min")
+          print(f"Input Voltage : {data['input_voltage']} V")
+          print(f"Output Voltage : {data['output_voltage']} V")
+          print(f"Frequency : {data['frequency']} Hz")
+          print(f"Load : {data['load']} %")
+          print(f"Power : {data['power']} W")
+          print(f"Temperature : {data['temperature']} °C")
+    
+    elif data["type"] == "COOLING":
+
+          print(f"Supply Temperature : {data['supply_temperature']} °C")
+          print(f"Return Temperature : {data['return_temperature']} °C")
+          print(f"Humidity : {data['humidity']} %")
+          print(f"Fan Speed : {data['fan_speed']} RPM")
+          print(f"Power : {data['power']} W")
+          print(f"Pressure : {data['pressure']} Pa")
+
+    print(f"Status : {data['status']}")
     print("\n------ REVIEW ------")
 
     print(f"Review Status : {data['review_status']}")

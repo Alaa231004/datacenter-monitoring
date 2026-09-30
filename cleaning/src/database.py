@@ -8,7 +8,7 @@ class Database:
 
     
         self.host = os.getenv("DB_HOST", "localhost")
-        self.port = os.getenv("DB_PORT", 5432)
+        self.port = os.getenv("DB_PORT", 5433)
         self.database = os.getenv("DB_NAME","datacenter_monitoring")
         self.user = os.getenv("DB_USER", "postgres")
         self.password = os.getenv("DB_PASSWORD", "msaly2310")

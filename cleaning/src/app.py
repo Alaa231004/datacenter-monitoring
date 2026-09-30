@@ -13,10 +13,19 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 import csv
 import tempfile
+from server_repository import ServerRepository
+from ups_repository import UPSRepository
+from cooling_repository import CoolingRepository
 app = Flask(__name__)
 CORS(app)
 repository = Repository()
+server_repository = ServerRepository()
+ups_repository = UPSRepository()
+cooling_repository = CoolingRepository()
 
+server_repository = ServerRepository()
+ups_repository = UPSRepository()
+cooling_repository = CoolingRepository()
 
 @app.route("/health", methods=["GET"])
 def health():
@@ -53,9 +62,6 @@ def get_ok_metrics():
 
     return jsonify(metrics), 200
 
-@app.route("/metrics/servers", methods=["GET"])
-def get_servers():
-    return jsonify(repository.get_servers()), 200
 
 @app.route("/metrics/switches", methods=["GET"])
 def get_switchs():
@@ -63,13 +69,6 @@ def get_switchs():
 @app.route("/metrics/routeur", methods=["GET"])
 def get_routeur():
     return jsonify(repository.get_routeur()), 200
-@app.route("/metrics/cooling", methods=["GET"])
-def get_cooling():
-    return jsonify(repository.get_cooling()), 200
-
-@app.route("/metrics/ups", methods=["GET"])
-def get_UPS():
-    return jsonify(repository.get_UPS()), 200
 
 @app.route("/metrics/all", methods=["GET"])
 def get_all():
@@ -222,6 +221,10 @@ def receive_metrics():
     valid, message = validate_metrics(data)
 
     if not valid:
+        
+        print("ERREUR VALIDATION :", message)
+        print(data)
+        
         return jsonify({
             "status": "error",
             "message": message
@@ -265,13 +268,18 @@ def receive_metrics():
     
     print("Avant save_metrics")
 
-    repository.save_metrics(reviewed)
+    if reviewed["type"] == "SERVER":
+       server_repository.save(reviewed)
 
+    elif reviewed["type"] == "UPS":
+       ups_repository.save(reviewed)
+
+    elif reviewed["type"] == "COOLING":
+        cooling_repository.save(reviewed)
     print("Après save_metrics")
     # ==========================
     # Réponse
     # ==========================
-    repository.save_metrics(reviewed)
 
     return jsonify({
         "status": "success",
@@ -280,6 +288,56 @@ def receive_metrics():
         "data": reviewed
     }), 200
 
+# ==========================================
+# SERVER METRICS
+# ==========================================
 
+@app.route("/servers", methods=["GET"])
+def get_servers():
+
+    data = repository.get_server_metrics()
+
+    return jsonify(data)
+
+
+# ==========================================
+# UPS METRICS
+# ==========================================
+
+@app.route("/ups", methods=["GET"])
+def get_ups():
+
+    data = repository.get_ups_metrics()
+
+    return jsonify(data)
+
+
+# ==========================================
+# COOLING METRICS
+# ==========================================
+
+@app.route("/cooling", methods=["GET"])
+def get_cooling():
+
+    data = repository.get_cooling_metrics()
+
+    return jsonify(data)
+
+@app.route("/statistics/servers", methods=["GET"])
+def server_statistics():
+
+    return jsonify(repository.get_server_statistics())
+
+
+@app.route("/statistics/ups", methods=["GET"])
+def ups_statistics():
+
+    return jsonify(repository.get_ups_statistics())
+
+
+@app.route("/statistics/cooling", methods=["GET"])
+def cooling_statistics():
+
+    return jsonify(repository.get_cooling_statistics())
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

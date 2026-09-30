@@ -9,23 +9,50 @@ def enrich_metrics(data):
 
     enriched = data.copy()
 
+
     # ==========================
     # Niveau de risque
     # ==========================
 
-    cpu = enriched["cpu"]
+    if enriched["type"] == "SERVER":
 
-    if cpu >= CRITICAL_CPU:
-        risk = "HIGH"
+        cpu = enriched["cpu"]
 
-    elif cpu >= WARNING_CPU:
-        risk = "MEDIUM"
+        if cpu >= CRITICAL_CPU:
+            risk = "HIGH"
+
+        elif cpu >= WARNING_CPU:
+            risk = "MEDIUM"
+
+        else:
+            risk = "LOW"
+    elif enriched["type"] == "UPS":
+
+        if enriched["battery_level"] <= 20:
+            risk = "HIGH"
+
+        elif enriched["battery_level"] <= 40:
+            risk = "MEDIUM"
+
+        else:
+            risk = "LOW"
+
+    elif enriched["type"] == "COOLING":
+
+        if enriched["supply_temperature"] >= 24:
+            risk = "HIGH"
+
+        elif enriched["supply_temperature"] >= 21:
+            risk = "MEDIUM"
+
+        else:
+            risk = "LOW"
 
     else:
+
         risk = "LOW"
 
     enriched["risk_level"] = risk
-
     # ==========================
     # Source de collecte
     # ==========================

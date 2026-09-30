@@ -1,12 +1,14 @@
 import os
 import requests
 
+
 class SenderService:
 
     URL = os.getenv(
         "CLEANING_URL",
-        "http://localhost:5000/metrics"
+        "http://cleaning:5000/metrics"
     )
+
     @staticmethod
     def send(metrics):
 
@@ -23,6 +25,11 @@ class SenderService:
 
             else:
                 print(f"❌ Erreur HTTP {response.status_code}")
+
+                try:
+                    print(response.json())
+                except Exception:
+                    print(response.text)
 
         except requests.exceptions.RequestException as e:
 

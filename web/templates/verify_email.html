@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Vérification Email</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/auth.css') }}">
+
+</head>
+
+<body>
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <div class="logo">
+            ✉
+        </div>
+
+        <h1>
+            Vérification
+        </h1>
+
+        <p class="description">
+
+            Un code de vérification à 6 chiffres
+            a été envoyé à votre adresse email.
+
+        </p>
+
+
+        <form id="verify-form">
+
+            <label>
+                Code de vérification
+            </label>
+
+            <input
+                id="verification-code"
+                type="text"
+                maxlength="6"
+                placeholder="123456"
+                required
+            >
+
+
+            <button type="submit">
+                Vérifier mon email
+            </button>
+
+        </form>
+
+
+        <div id="message"></div>
+
+
+        <p class="switch">
+
+            <a href="/login">
+                Retour à la connexion
+            </a>
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+
+</body>
+
+</html>

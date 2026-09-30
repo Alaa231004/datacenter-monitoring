@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Data Center Monitoring</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =====================================================
+         TOP NAVIGATION
+    ====================================================== -->
+
+    <header class="topnav">
+
+        <div class="topnav-brand">
+
+            <div class="brand-icon">
+                DC
+            </div>
+
+            <div>
+                <div class="brand-title">
+                    DATA CENTER
+                </div>
+
+                <div class="brand-subtitle">
+                    MONITORING
+                </div>
+            </div>
+
+        </div>
+
+
+        <nav class="topnav-links">
+
+            <a href="#dashboard"
+               class="nav-item active"
+               data-section="dashboard">
+
+                  <span>▦</span>
+                  Dashboard
+
+            </a>
+
+            <a href="#servers"
+               class="nav-item"
+               data-section="servers">
+
+                  <span>▣</span>
+                  Serveurs
+
+            </a>
+
+            <a href="#ups"
+               class="nav-item"
+               data-section="ups">
+
+                  <span>▤</span>
+                  UPS
+
+            </a>
+
+            <a href="#cooling"
+               class="nav-item"
+               data-section="cooling">
+
+                  <span>❄</span>
+                  Cooling
+
+             </a>
+
+             <a href="#anomalies"
+                class="nav-item"
+                data-section="anomalies">
+
+                    <span>⚠</span>
+                    Anomalies
+
+             </a>
+
+            <span class="topnav-divider"></span>
+
+            <a href="http://localhost:3000"
+               target="_blank"
+               class="nav-item">
+
+                <span>◈</span>
+                Grafana
+
+                <span class="external">
+                    ↗
+                </span>
+
+            </a>
+
+            <a href="#ai"
+               class="nav-item"
+               data-section="ai">
+
+                <span>✦</span>
+                AI Assistant
+
+            </a>
+
+        </nav>
+
+
+        <div class="topnav-actions">
+
+            <div class="live-pill">
+                <span class="status-dot"></span>
+                Système opérationnel
+            </div>
+
+            <a href="#" class="nav-item icon-only" title="Paramètres">
+                <span>⚙</span>
+            </a>
+
+        </div>
+
+    </header>
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <div class="page-header">
+
+            <div>
+
+                <div class="breadcrumb">
+                    Data Center / Supervision
+                </div>
+
+                <h1>
+                    Dashboard
+                </h1>
+
+            </div>
+
+
+            <div class="page-actions">
+
+                <div class="last-update">
+
+                    <span class="live-dot"></span>
+
+                    <span>
+                        Données en temps réel
+                    </span>
+
+                </div>
+
+
+                <button class="refresh-button"
+                        onclick="loadDashboard()">
+
+                    ↻
+
+                    Actualiser
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             KPI STRIP
+        ================================================== -->
+
+        <section class="kpi-strip">
+
+            <div class="kpi-card">
+
+                <span class="kpi-icon blue">
+                    ◉
+                </span>
+
+                <div>
+                    <div class="kpi-label">
+                        ÉQUIPEMENTS
+                    </div>
+
+                    <div class="kpi-value"
+                         id="total-equipment">
+                        --
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="kpi-card">
+
+                <span class="kpi-icon green">
+                    ✓
+                </span>
+
+                <div>
+                    <div class="kpi-label">
+                        OPÉRATIONNELS
+                    </div>
+
+                    <div class="kpi-value green-text"
+                         id="total-ok">
+                        --
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="kpi-card">
+
+                <span class="kpi-icon orange">
+                    !
+                </span>
+
+                <div>
+                    <div class="kpi-label">
+                        AVERTISSEMENTS
+                    </div>
+
+                    <div class="kpi-value orange-text"
+                         id="total-warning">
+                        --
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="kpi-card">
+
+                <span class="kpi-icon red">
+                    !
+                </span>
+
+                <div>
+                    <div class="kpi-label">
+                        CRITIQUES
+                    </div>
+
+                    <div class="kpi-value red-text"
+                         id="total-critical">
+                        --
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="kpi-card">
+
+                <span class="kpi-icon purple">
+                    ◇
+                </span>
+
+                <div>
+                    <div class="kpi-label">
+                        ANOMALIES
+                    </div>
+
+                    <div class="kpi-value"
+                         id="total-anomalies">
+                        --
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             WORKSPACE (main column + rail)
+        ================================================== -->
+
+        <div class="workspace">
+
+            <div class="workspace-main">
+
+                <!-- FILTER TOOLBAR -->
+
+                <section class="panel toolbar-panel">
+
+                    <div class="filters">
+
+                        <div class="filter">
+
+                            <label>
+                                Équipement
+                            </label>
+
+                            <select id="equipment-type">
+
+                                <option value="all">
+                                    Tous les équipements
+                                </option>
+
+                                <option value="servers">
+                                    Serveurs
+                                </option>
+
+                                <option value="ups">
+                                    UPS
+                                </option>
+
+                                <option value="cooling">
+                                    Cooling
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="filter">
+
+                            <label>
+                                Hostname
+                            </label>
+
+                            <input
+                                id="hostname-filter"
+                                type="text"
+                                placeholder="Ex : SRV-001"
+                            >
+
+                        </div>
+
+
+                        <div class="filter">
+
+                            <label>
+                                Statut
+                            </label>
+
+                            <select id="status-filter">
+
+                                <option value="">
+                                    Tous
+                                </option>
+
+                                <option value="OK">
+                                    OK
+                                </option>
+
+                                <option value="WARNING">
+                                    WARNING
+                                </option>
+
+                                <option value="CRITICAL">
+                                    CRITICAL
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="filter">
+
+                            <label>
+                                Niveau de risque
+                            </label>
+
+                            <select id="risk-filter">
+
+                                <option value="">
+                                    Tous
+                                </option>
+
+                                <option value="LOW">
+                                    LOW
+                                </option>
+
+                                <option value="MEDIUM">
+                                    MEDIUM
+                                </option>
+
+                                <option value="HIGH">
+                                    HIGH
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="filter-buttons">
+
+                            <button class="apply-button"
+                                    onclick="applyFilters()">
+
+                                Appliquer
+
+                            </button>
+
+                            <button class="clear-button"
+                                    onclick="clearFilters()">
+
+                                Réinitialiser
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- EQUIPMENT OVERVIEW -->
+
+                <section class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Équipements
+                        </h2>
+
+                        <p>
+                            Dernières mesures collectées
+                        </p>
+
+                    </div>
+
+                    <div class="collection-info">
+
+                        <span class="live-dot"></span>
+
+                        Actualisation automatique
+
+                    </div>
+
+                </section>
+
+
+                <!-- SERVERS -->
+
+                <section class="panel equipment-panel">
+
+                    <div class="equipment-heading">
+
+                        <div class="equipment-title">
+
+                            <div class="equipment-symbol server">
+                                ▣
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    Serveurs
+                                </h3>
+
+                                <span>
+                                    Infrastructure informatique
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <span class="equipment-count"
+                              id="server-count">
+
+                            0
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+
+                                <th>Hostname</th>
+                                <th>CPU</th>
+                                <th>RAM</th>
+                                <th>Temp.</th>
+                                <th>Power</th>
+                                <th>Statut</th>
+                                <th>Risque</th>
+                                <th>Anomalies</th>
+                                <th>Dernière collecte</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="servers-table">
+
+                            <tr>
+                                <td colspan="9"
+                                    class="loading">
+
+                                    Chargement...
+
+                                </td>
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+
+                <!-- UPS -->
+
+                <section class="panel equipment-panel">
+
+                    <div class="equipment-heading">
+
+                        <div class="equipment-title">
+
+                            <div class="equipment-symbol ups">
+                                ▤
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    UPS
+                                </h3>
+
+                                <span>
+                                    Alimentation électrique
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <span class="equipment-count"
+                              id="ups-count">
+
+                            0
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+
+                                <th>Hostname</th>
+                                <th>Batterie</th>
+                                <th>Runtime</th>
+                                <th>Charge</th>
+                                <th>Temp.</th>
+                                <th>Power</th>
+                                <th>Statut</th>
+                                <th>Risque</th>
+                                <th>Anomalies</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="ups-table">
+
+                            <tr>
+                                <td colspan="9"
+                                    class="loading">
+
+                                    Chargement...
+
+                                </td>
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+
+                <!-- COOLING -->
+
+                <section class="panel equipment-panel">
+
+                    <div class="equipment-heading">
+
+                        <div class="equipment-title">
+
+                            <div class="equipment-symbol cooling">
+                                ❄
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    Cooling
+                                </h3>
+
+                                <span>
+                                    Refroidissement du Data Center
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <span class="equipment-count"
+                              id="cooling-count">
+
+                            0
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+
+                                <th>Hostname</th>
+                                <th>Soufflage</th>
+                                <th>Retour</th>
+                                <th>Humidité</th>
+                                <th>Ventilateur</th>
+                                <th>Power</th>
+                                <th>Pression</th>
+                                <th>Statut</th>
+                                <th>Anomalies</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="cooling-table">
+
+                            <tr>
+                                <td colspan="9"
+                                    class="loading">
+
+                                    Chargement...
+
+                                </td>
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+            <!-- =============================================
+                 RIGHT RAIL
+            ============================================== -->
+
+            <aside class="workspace-rail">
+
+                <div class="panel rail-card">
+
+                    <div class="rail-card-title">
+                        État du système
+                    </div>
+
+                    <div class="system-status">
+
+                        <span class="status-dot"></span>
+
+                        <div>
+                            <div class="system-title">
+                                Système opérationnel
+                            </div>
+
+                            <div class="system-small">
+                                Collector actif
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel rail-card">
+
+                    <div class="rail-card-title">
+                        Accès rapide
+                    </div>
+
+                    <a href="http://localhost:3000"
+                       target="_blank"
+                       class="rail-link">
+
+                        ◈ Ouvrir Grafana ↗
+
+                    </a>
+
+                    <a href="#ai"
+                       class="rail-link"
+                       data-section="ai">
+
+                        ✦ Parler à l'assistant AI
+
+                    </a>
+
+                    <a href="#anomalies"
+                       class="rail-link"
+                       data-section="anomalies">
+
+                        ⚠ Voir les anomalies
+
+                    </a>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <div>
+                Data Center Monitoring Platform
+            </div>
+
+            <div>
+                Collector • Cleaning Service • PostgreSQL
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     AI ASSISTANT — FLOATING CHAT WIDGET
+====================================================== -->
+
+<section id="ai-section"
+         class="ai-widget"
+         style="display: none;">
+
+    <div class="panel-title">
+
+      <div>
+
+          <h2>
+            AI Assistant
+          </h2>
+
+          <p>
+            Analyse du Data Center
+          </p>
+
+      </div>
+
+      <span class="ai-status">
+          Disponible
+      </span>
+
+    </div>
+
+
+    <div id="ai-messages"
+         class="ai-messages">
+
+       <div class="ai-message assistant">
+
+           <div class="ai-avatar">
+               ✦
+           </div>
+
+           <div class="ai-bubble">
+
+              Bonjour 👋
+
+              <br><br>
+
+              Je peux analyser les données de supervision
+              de votre Data Center.
+
+              <br><br>
+
+              Exemples :
+
+              <ul>
+                <li>Combien avons-nous de serveurs ?</li>
+                <li>Y a-t-il des équipements critiques ?</li>
+                <li>Combien avons-nous d'UPS ?</li>
+                <li>Y a-t-il des anomalies ?</li>
+              </ul>
+
+           </div>
+
+       </div>
+
+    </div>
+
+
+    <div class="ai-input-area">
+
+          <input
+               id="ai-input"
+               type="text"
+               placeholder="Posez votre question..."
+               autocomplete="off"
+           >
+
+           <button
+               class="apply-button"
+               onclick="sendAIMessage()">
+
+               Envoyer
+
+           </button>
+
+    </div>
+
+ </section>
+
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+
+</html>

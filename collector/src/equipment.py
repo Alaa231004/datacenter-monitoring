@@ -7,7 +7,12 @@ class Equipment:
         type,
         location,
         manufacturer,
-        model
+        model,
+        protocol=None,
+        ip=None,
+        port=None,
+        community=None,
+        slave_id=None
     ):
         self.id = id
         self.hostname = hostname
@@ -16,10 +21,17 @@ class Equipment:
         self.manufacturer = manufacturer
         self.model = model
 
+        # Communication
+        self.protocol = protocol
+        self.ip = ip
+        self.port = port
+        self.community = community
+        self.slave_id = slave_id
+
     def __str__(self):
         return (
             f"{self.hostname} | "
             f"{self.type} | "
-            f"{self.location} | "
-            f"{self.manufacturer} {self.model}"
+            f"{self.protocol} | "
+            f"{self.location}"
         )
