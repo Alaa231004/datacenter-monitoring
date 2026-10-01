@@ -35,3 +35,4 @@ Développer une solution de supervision permettant de collecter, nettoyer, stock
 ## 🏢 Contexte
 
 Projet réalisé dans le cadre d’un stage chez **CIRES Technologies** en 2026.
+
